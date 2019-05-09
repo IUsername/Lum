@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="Lum.Views.Dashboard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Lum.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid>
+        <controls:WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalSpacing="60" VerticalSpacing="40" Margin="20">
+
+            <controls:RadialGauge x:Name="CPUGauge" MaxWidth="400" Value="70" Minimum="0" 
+                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="CPU"
+                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
+                <controls:RadialGauge.TrailBrush>
+                    <SolidColorBrush Color="Red" />
+                </controls:RadialGauge.TrailBrush>
+            </controls:RadialGauge>
+
+
+            <controls:RadialGauge x:Name="GPUGauge" MaxWidth="400" Value="40" Minimum="0" 
+                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="GPU"
+                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
+                <controls:RadialGauge.TrailBrush>
+                    <SolidColorBrush Color="Red" />
+                </controls:RadialGauge.TrailBrush>
+            </controls:RadialGauge>
+
+            <controls:RadialGauge x:Name="MemoryGauge" MaxWidth="400" Value="76" Minimum="0" 
+                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="Mem"
+                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
+                <controls:RadialGauge.TrailBrush>
+                    <SolidColorBrush Color="Red" />
+                </controls:RadialGauge.TrailBrush>
+            </controls:RadialGauge>
+
+        </controls:WrapPanel>
+
+    </Grid>
+
+</Page>

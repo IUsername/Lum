@@ -6,30 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Loaded="Page_Loaded">
 
     <Grid>
-        <NavigationView PaneDisplayMode="Auto" AlwaysShowHeader="False" >
+
+        <NavigationView x:Name="NavView" PaneDisplayMode="Top" SelectionChanged="NavView_OnSelectionChanged"
+                        SelectionFollowsFocus="Enabled" IsBackButtonVisible="Collapsed"
+                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" >
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Dashboard">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
-                <NavigationViewItem Content="System Settings">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE211;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
-                <NavigationViewItem Content="Game Stream">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE17C;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                <NavigationViewItem ToolTipService.ToolTip="Dashboard" Icon="ViewAll" x:Name="DashboardItem" />
+                <NavigationViewItem ToolTipService.ToolTip="Desktop" Icon="GoToStart" x:Name="DesktopItem" />
+                <NavigationViewItem ToolTipService.ToolTip="Game Stream" Icon="SlideShow" x:Name="GameStreamItem"/>
             </NavigationView.MenuItems>
             <Frame x:Name="AppNavFrame" Navigated="AppNavFrame_Navigated" />
         </NavigationView>
+        <TextBlock Text="Lum" IsHitTestVisible="False" Margin="15 5" />
     </Grid>
 </Page>

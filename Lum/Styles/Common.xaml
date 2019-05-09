@@ -5,6 +5,9 @@
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="SystemAccentColor">#FF9F0D0D</Color>
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{ThemeResource SystemAccentColor}" />
+            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />
+            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
