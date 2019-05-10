@@ -41,6 +41,8 @@
                 </controls:RadialGauge.TrailBrush>
             </controls:RadialGauge>
 
+            <ToggleSwitch Header="Performance Boost"></ToggleSwitch>
+
         </controls:WrapPanel>
 
     </Grid>

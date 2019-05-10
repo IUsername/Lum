@@ -77,8 +77,8 @@ namespace Lum.Views
 
         private void ExtendedSplash_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var aa = Logo.PlayAsync(0, 1, false);
-            aa.Completed = (info, status) => DismissExtendedSplash();
+            var playAction = Logo.PlayAsync(0, 1, false);
+            playAction.Completed = (info, status) => DismissExtendedSplash();
         }
 
         public Task RunAsync()
