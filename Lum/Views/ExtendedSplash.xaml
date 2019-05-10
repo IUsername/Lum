@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Lum.Views.ExtendedSplash"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Lum.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:animatedVisuals="using:AnimatedVisuals"
+    mc:Ignorable="d" Loaded="ExtendedSplash_OnLoaded">
+
+    <Grid Background="#FF333333">
+        <Canvas>
+            <controls:AnimatedVisualPlayer x:Name="Logo" AutoPlay="False">
+                <animatedVisuals:LogoComp />
+            </controls:AnimatedVisualPlayer>
+        </Canvas>
+    </Grid>
+</Page>

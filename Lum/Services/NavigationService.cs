@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
@@ -13,6 +12,8 @@ namespace Lum.Services
     public class NavigationService : INavigationService
     {
         private readonly IComponentContext _iocContext;
+        private Type _current;
+        private object _currentParameter;
         private bool _isNavigating;
 
         public NavigationService(IFrameAdapter frameAdapter, IComponentContext iocContext)
@@ -24,6 +25,8 @@ namespace Lum.Services
         }
 
         private Dictionary<Type, NavigatedToViewModelDelegate> PageViewModels { get; }
+
+        private IFrameAdapter Frame { get; }
 
         public bool CanGoBack => Frame.CanGoBack;
 
@@ -59,18 +62,6 @@ namespace Lum.Services
             }
         }
 
-        private IFrameAdapter Frame { get; }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            IsNavigating = false;
-            if (PageViewModels.ContainsKey(e.SourcePageType))
-            {
-                var loadViewModel = PageViewModels[e.SourcePageType];
-                var _ = loadViewModel(e.Content, e.Parameter, e);
-            }
-        }
-
         public void RegisterPageViewModel<TPage, TViewModel>() where TViewModel : class
         {
             async Task NavigatedTo(object page, object parameter, NavigationEventArgs args)
@@ -100,7 +91,20 @@ namespace Lum.Services
 
         public event EventHandler Navigated;
 
-        private Task NavigateToPage<TPage>(FrameNavigationOptions navOptions) => NavigateToPage<TPage>(null, navOptions);
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            IsNavigating = false;
+            if (PageViewModels.ContainsKey(e.SourcePageType))
+            {
+                var loadViewModel = PageViewModels[e.SourcePageType];
+                var _ = loadViewModel(e.Content, e.Parameter, e);
+            }
+            _current = e.SourcePageType;
+            _currentParameter = e.Parameter;
+        }
+
+        private Task NavigateToPage<TPage>(FrameNavigationOptions navOptions) =>
+            NavigateToPage<TPage>(null, navOptions);
 
         private async Task NavigateToPage<TPage>(object parameter, FrameNavigationOptions navOptions)
         {
@@ -109,8 +113,16 @@ namespace Lum.Services
                 return;
             }
 
+            var type = typeof(TPage);
+            if (type == _current && parameter == _currentParameter)
+            {
+                return;
+            }
+
+           
+
             IsNavigating = true;
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() => Frame.Navigate(typeof(TPage), parameter, navOptions));
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() => Frame.Navigate(type, parameter, navOptions));
         }
 
         private protected delegate Task NavigatedToViewModelDelegate(object page,

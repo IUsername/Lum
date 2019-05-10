@@ -13,7 +13,7 @@
                             VerticalAlignment="Center"
                             HorizontalSpacing="60" VerticalSpacing="40" Margin="20">
 
-            <controls:RadialGauge x:Name="CPUGauge" MaxWidth="400" Value="70" Minimum="0" 
+            <controls:RadialGauge MaxWidth="400" Value="70" Minimum="0"
                                   Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="CPU"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
@@ -23,7 +23,7 @@
             </controls:RadialGauge>
 
 
-            <controls:RadialGauge x:Name="GPUGauge" MaxWidth="400" Value="40" Minimum="0" 
+            <controls:RadialGauge MaxWidth="400" Value="40" Minimum="0"
                                   Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="GPU"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
@@ -32,7 +32,7 @@
                 </controls:RadialGauge.TrailBrush>
             </controls:RadialGauge>
 
-            <controls:RadialGauge x:Name="MemoryGauge" MaxWidth="400" Value="76" Minimum="0" 
+            <controls:RadialGauge MaxWidth="400" Value="76" Minimum="0"
                                   Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="Mem"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">

@@ -17,6 +17,7 @@ namespace Lum.Views
     {
         private bool _isFirstLoad = true;
         private INavigationService _navService;
+        private Type _currentPageType;
 
         public NavigationRoot()
         {
@@ -40,6 +41,12 @@ namespace Lum.Views
         private void AppNavFrame_Navigated(object sender, NavigationEventArgs e)
         {
             var sourcePageType = e.SourcePageType;
+            SelectNav(sourcePageType);
+            _currentPageType = sourcePageType;
+        }
+
+        private void SelectNav(Type sourcePageType)
+        {
             switch (sourcePageType)
             {
                 case Type _ when sourcePageType == typeof(Dashboard):
@@ -58,11 +65,13 @@ namespace Lum.Views
         {
             if (_isFirstLoad)
             {
-                _navService.NavigateToDashboard(new FrameNavigationOptions());
+                SelectNav(_currentPageType);
+                //_navService.NavigateToDashboard(new FrameNavigationOptions());
                 _isFirstLoad = false;
             }
 
             ViewModeService.Instance.Register(NavView, AppNavFrame);
+
         }
 
         public void InitializeNavigationService(INavigationService navService)

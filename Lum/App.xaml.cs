@@ -79,13 +79,14 @@ namespace Lum
 
             await InitializeAsync();
 
-            InitWindow(e.PrelaunchActivated);
+            InitWindow(e.SplashScreen, e.PrelaunchActivated);
 
             await StartupAsync();
         }
 
         private async Task StartupAsync()
         {
+          
         }
 
         private static void ExtendAcrylicIntoTitleBar()
@@ -124,7 +125,7 @@ namespace Lum
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             await InitializeAsync();
-            InitWindow();
+            InitWindow(null);
 
             if (args.Kind == ActivationKind.Protocol)
             {
@@ -135,19 +136,30 @@ namespace Lum
             }
         }
 
-        private async Task InitializeAsync() => ExtendAcrylicIntoTitleBar();
-
-        private void InitWindow(bool skipWindowCreation = false)
+        private async Task InitializeAsync()
         {
-            var builder = new ContainerBuilder();
+            
+
+            ExtendAcrylicIntoTitleBar();
+        }
+
+        private async void InitWindow(SplashScreen splash, bool skipWindowCreation = false)
+        {
+            
             _rootPage = Window.Current.Content as NavigationRoot;
             var shouldInit = _rootPage == null && !skipWindowCreation;
 
             if (shouldInit)
             {
-                _rootPage = new NavigationRoot();
+                var extSplash = new ExtendedSplash(splash);
+                Window.Current.Content = extSplash;
+                Window.Current.Activate();
 
+                _rootPage = new NavigationRoot();
                 var adapter = new FrameAdapter(_rootPage.AppFrame);
+                adapter.NavigationFailed += OnNavigationFailed;
+
+                var builder = new ContainerBuilder();
                 builder.RegisterInstance(adapter).AsImplementedInterfaces();
 
                 builder.RegisterType<DashboardViewModel>();
@@ -161,7 +173,9 @@ namespace Lum
                 navService.RegisterPageViewModel<Desktop, DesktopViewModel>();
                 _rootPage.InitializeNavigationService(navService);
 
-                adapter.NavigationFailed += OnNavigationFailed;
+                await navService.NavigateToDashboard(new FrameNavigationOptions());
+
+                await extSplash.RunAsync().ConfigureAwait(true);
 
                 Window.Current.Content = _rootPage;
                 Window.Current.Activate();

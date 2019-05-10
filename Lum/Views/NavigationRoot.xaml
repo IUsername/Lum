@@ -12,13 +12,13 @@
 
         <NavigationView x:Name="NavView" PaneDisplayMode="Top" SelectionChanged="NavView_OnSelectionChanged"
                         SelectionFollowsFocus="Enabled" IsBackButtonVisible="Collapsed"
-                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" >
+                         >
             <NavigationView.MenuItems>
-                <NavigationViewItem ToolTipService.ToolTip="Dashboard" Icon="ViewAll" x:Name="DashboardItem" />
-                <NavigationViewItem ToolTipService.ToolTip="Desktop" Icon="GoToStart" x:Name="DesktopItem" />
-                <NavigationViewItem ToolTipService.ToolTip="Game Stream" Icon="SlideShow" x:Name="GameStreamItem"/>
+                <NavigationViewItem ToolTipService.ToolTip="Dashboard" Icon="ViewAll" x:Name="DashboardItem" Content="Dashboard" />
+                <NavigationViewItem ToolTipService.ToolTip="Desktop" Icon="GoToStart" x:Name="DesktopItem" Content="Desktop" />
+                <NavigationViewItem ToolTipService.ToolTip="Game Stream" Icon="SlideShow" x:Name="GameStreamItem" Content="Game Stream"/>
             </NavigationView.MenuItems>
-            <Frame x:Name="AppNavFrame" Navigated="AppNavFrame_Navigated" />
+            <Frame x:Name="AppNavFrame" Navigated="AppNavFrame_Navigated" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         </NavigationView>
         <TextBlock Text="Lum" IsHitTestVisible="False" Margin="15 5" />
     </Grid>
