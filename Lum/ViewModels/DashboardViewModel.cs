@@ -70,7 +70,7 @@ namespace Lum.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async Task Start()
+        private async void Start()
         {
             var rand = new Random();
             CPU = rand.NextDouble();
@@ -78,10 +78,10 @@ namespace Lum.ViewModels
             Memory = rand.NextDouble();
             while (true)
             {
-                CPU = Clamp(0, 1, CPU + (rand.NextDouble() - 0.5) * 0.1);
-                GPU = Clamp(0, 1, GPU + (rand.NextDouble() - 0.5) * 0.2);
+                CPU = Clamp(0, 1, CPU + (rand.NextDouble() - 0.5) * 0.03);
+                GPU = Clamp(0, 1, GPU + (rand.NextDouble() - 0.5) * 0.02);
                 Memory = Clamp(0, 1, Memory + (rand.NextDouble() - 0.5) * 0.05);
-                await Task.Delay(600);
+                await Task.Delay(1200);
             }
         }
 

@@ -4,7 +4,6 @@ using Windows.Foundation;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -20,7 +19,7 @@ namespace Lum
     [TemplatePart(Name = SlotBorderPartName, Type = typeof(Path))]
     [TemplatePart(Name = PercentTextPartName, Type = typeof(TextBlock))]
     [TemplatePart(Name = RootPartName, Type = typeof(Grid))]
-    public sealed class RadialIndicator : RangeBase
+    public sealed class RadialIndicator : Control
     {
         private const string MarkerPartName = "PART_Marker";
         private const string SlotPartName = "PART_Slot";
@@ -39,6 +38,15 @@ namespace Lum
         public static readonly DependencyProperty EasedValueProperty = DependencyProperty.Register(
             nameof(EasedValue), typeof(double), typeof(RadialIndicator), new PropertyMetadata(default(double), OnEasedValueChanged));
 
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+            nameof(Value), typeof(double), typeof(RadialIndicator), new PropertyMetadata(default(double), OnValueChanged));
+
+        public double Value
+        {
+            get => (double) GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
+
         private readonly Storyboard _storyboard = new Storyboard();
         private DoubleAnimation _timeline;
 
@@ -46,7 +54,6 @@ namespace Lum
         {
             var indicator = (RadialIndicator) d;
             indicator.AnimateToNewValue((double)e.NewValue);
-           
         }
 
         private void AnimateToNewValue(double newValue)
@@ -56,13 +63,15 @@ namespace Lum
                 var timeline = new DoubleAnimation
                 {
                     To = newValue,
-                    Duration = TimeSpan.FromMilliseconds(800),
+                    Duration = TimeSpan.FromMilliseconds(1000),
                     EnableDependentAnimation = true
                 };
                 if (EasingFunction == null)
                 {
-                    var elastic = new ElasticEase {Oscillations = 1, Springiness = 3};
-                    timeline.EasingFunction = elastic;
+                    var e = new QuarticEase {EasingMode = EasingMode.EaseInOut};
+
+                    // var elastic = new ElasticEase {Oscillations = 1, Springiness = 3};
+                    timeline.EasingFunction = e;// elastic;
                 }
                 else
                 {
@@ -97,9 +106,6 @@ namespace Lum
         public RadialIndicator()
         {
             DefaultStyleKey = typeof(RadialIndicator);
-
-            Minimum = 0d;
-            Maximum = 1d;
         }
 
         public string Title
@@ -108,16 +114,11 @@ namespace Lum
             set => SetValue(TitleProperty, value);
         }
 
-        protected override void OnValueChanged(double oldValue, double newValue)
+        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            OnValueChanged(this);
-            base.OnValueChanged(oldValue, newValue);
-        }
-
-        private static void OnValueChanged(DependencyObject d)
-        {
-            var indicator = (RadialIndicator) d;
-            if (double.IsNaN(indicator.Value))
+            var indicator = (RadialIndicator)d;
+            var newValue = (double) e.NewValue;
+            if (double.IsNaN(newValue))
             {
                 return;
             }
@@ -125,7 +126,7 @@ namespace Lum
             if (indicator.GetTemplateChild(MarkerPartName) is Path marker)
             {
                 var startAngle = ValueToAngle(0);
-                var endAngle = ValueToAngle(indicator.Value);
+                var endAngle = ValueToAngle(newValue);
                 marker.Data = CreateArcPathGeometry(startAngle, endAngle);
 
                 if (indicator.GetTemplateChild(RootPartName) is Grid root)
@@ -133,7 +134,7 @@ namespace Lum
                     if (root.Lights.Count > 0 && root.Lights[0] is RedSpotLight light)
                     {
                         var endPoint = AngleToPoint(endAngle);
-                        light.Position(new Vector3((float) endPoint.X, (float) endPoint.Y, 60));
+                        light.Position(new Vector3((float)endPoint.X, (float)endPoint.Y, 40));
                     }
                 }
             }
@@ -145,7 +146,7 @@ namespace Lum
                     var run = new Run
                     {
                         FontSize = 24,
-                        Text = $"{indicator.Value * 100:F0}",
+                        Text = $"{newValue * 100:F0}",
                         FontWeight = FontWeights.SemiBold
                     };
                     var symbol = new Run
@@ -159,10 +160,12 @@ namespace Lum
                 }
                 else
                 {
-                    ((Run) text.Inlines[0]).Text = $"{indicator.Value * 100:F0}";
+                    ((Run)text.Inlines[0]).Text = $"{newValue * 100:F0}";
                 }
             }
         }
+
+     
 
         protected override void OnApplyTemplate()
         {
@@ -189,7 +192,7 @@ namespace Lum
                 }
             }
 
-            OnValueChanged(this);
+            //OnValueChanged(this);
         }
 
         private static PathGeometry CreateArcPathGeometry(double startAngle, double endAngle)

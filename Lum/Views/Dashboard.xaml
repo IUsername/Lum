@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:lum="using:Lum"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:Lum.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:DashboardViewModel }">
 
     <Grid>
         <controls:WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center"

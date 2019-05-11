@@ -19,10 +19,10 @@ namespace Lum
                 switch (d)
                 {
                     case UIElement element:
-                        XamlLight.AddTargetElement(GetIdStatic(), element);
+                        AddTargetElement(GetIdStatic(), element);
                         break;
                     case Brush brush:
-                        XamlLight.AddTargetBrush(GetIdStatic(), brush);
+                        AddTargetBrush(GetIdStatic(), brush);
                         break;
                 }
             }
@@ -31,10 +31,10 @@ namespace Lum
                 switch (d)
                 {
                     case UIElement element:
-                        XamlLight.RemoveTargetElement(GetIdStatic(), element);
+                        RemoveTargetElement(GetIdStatic(), element);
                         break;
                     case Brush brush:
-                        XamlLight.RemoveTargetBrush(GetIdStatic(), brush);
+                        RemoveTargetBrush(GetIdStatic(), brush);
                         break;
                 }
             }
@@ -49,7 +49,7 @@ namespace Lum
 
             var spotLight = Window.Current.Compositor.CreateSpotLight();
             spotLight.InnerConeColor = Color.FromArgb(0xFF, 0x9F, 0x0D, 0x0D);
-            spotLight.OuterConeColor = Colors.DeepSkyBlue;
+            spotLight.OuterConeColor = Colors.LightBlue;
             spotLight.InnerConeAngleInDegrees = 1;
             spotLight.OuterConeAngleInDegrees = 90;
             spotLight.InnerConeIntensity = 2;
@@ -84,10 +84,7 @@ namespace Lum
             }
         }
 
-        private static string GetIdStatic()
-        {
-            return typeof(RedSpotLight).FullName;
-        }
+        private static string GetIdStatic() => typeof(RedSpotLight).FullName;
 
         protected override string GetId() => GetIdStatic();
 
@@ -96,9 +93,6 @@ namespace Lum
             target.SetValue(IsTargetProperty, value);
         }
 
-        public static bool GetIsTarget(DependencyObject target)
-        {
-            return (bool) target.GetValue(IsTargetProperty);
-        }
+        public static bool GetIsTarget(DependencyObject target) => (bool) target.GetValue(IsTargetProperty);
     }
 }

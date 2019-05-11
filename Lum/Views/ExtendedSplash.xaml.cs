@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -16,10 +15,12 @@ namespace Lum.Views
     public sealed partial class ExtendedSplash : Page
     {
         private readonly SplashScreen _splash; // Variable to hold the splash screen object.
+        private readonly TaskCompletionSource<object> _tcs;
+
         internal bool Dismissed; // Variable to track splash screen dismissal status.
+
         //internal Frame rootFrame;
         internal Rect SplashImageRect; // Rect to store splash screen image coordinates.
-        private readonly TaskCompletionSource<object> _tcs;
 
 
         public ExtendedSplash(SplashScreen splashScreen)
@@ -81,9 +82,6 @@ namespace Lum.Views
             playAction.Completed = (info, status) => DismissExtendedSplash();
         }
 
-        public Task RunAsync()
-        {
-            return _tcs.Task;
-        }
+        public Task RunAsync() => _tcs.Task;
     }
 }

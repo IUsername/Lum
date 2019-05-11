@@ -18,7 +18,7 @@
 
                                 <Path Name="PART_Slot_Border"
                                       local:RedSpotLight.IsTarget="True"
-                                      Stroke="#FF888888"
+                                      Stroke="#FFCCCCCC"
                                       StrokeEndLineCap="Round"
                                       StrokeStartLineCap="Round"
                                       StrokeThickness="8" />

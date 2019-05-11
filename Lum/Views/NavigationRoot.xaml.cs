@@ -15,9 +15,9 @@ namespace Lum.Views
     /// </summary>
     public sealed partial class NavigationRoot : Page
     {
+        private Type _currentPageType;
         private bool _isFirstLoad = true;
         private INavigationService _navService;
-        private Type _currentPageType;
 
         public NavigationRoot()
         {
@@ -66,12 +66,10 @@ namespace Lum.Views
             if (_isFirstLoad)
             {
                 SelectNav(_currentPageType);
-                //_navService.NavigateToDashboard(new FrameNavigationOptions());
                 _isFirstLoad = false;
             }
 
             ViewModeService.Instance.Register(NavView, AppNavFrame);
-
         }
 
         public void InitializeNavigationService(INavigationService navService)
