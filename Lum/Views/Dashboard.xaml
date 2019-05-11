@@ -16,13 +16,17 @@
                             VerticalAlignment="Center"
                             HorizontalSpacing="60" VerticalSpacing="40" Margin="20">
 
-            <lum:RadialIndicator EasedValue="{Binding CPU}" MaxWidth="400" Title="CPU" />
-            <lum:RadialIndicator EasedValue="{Binding GPU}" MaxWidth="400" Title="GPU" />
-            <lum:RadialIndicator EasedValue="{Binding Memory}" MaxWidth="400" Title="Memory" />
-
-            <Grid Background="#FF383838">
-                <ToggleSwitch Header="Performance Boost" Margin="20" />
+            <Grid MaxWidth="400">
+                <lum:RadialIndicator EasedValue="{Binding CPU}" Title="CPU" />
+                <lum:TemperatureIndicator MaxWidth="400" Minimum="0" Maximum="100" Value="{Binding CPUTemp}" />
             </Grid>
+
+            <Grid MaxWidth="400">
+                <lum:RadialIndicator EasedValue="{Binding GPU}" Title="GPU" />
+                <lum:TemperatureIndicator MaxWidth="400" Minimum="0" Maximum="100" Value="{Binding GPUTemp}" />
+            </Grid>
+
+            <lum:RadialIndicator EasedValue="{Binding Memory}" MaxWidth="400" Title="Memory" />
 
         </controls:WrapPanel>
 

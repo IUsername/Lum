@@ -121,6 +121,7 @@
     <Compile Include="Assets\LogoComp.cs" />
     <Compile Include="Controls\RadialIndicator.cs" />
     <Compile Include="Controls\RedSpotLight.cs" />
+    <Compile Include="Controls\TemperatureIndicator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\FrameAdapter.cs" />
     <Compile Include="Services\IFrameAdapter.cs" />

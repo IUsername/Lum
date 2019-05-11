@@ -8,42 +8,70 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialIndicator">
                     <Viewbox>
-                        <Grid Width="100" Height="100">
+                        <Grid Name="PART_Root" Width="100" Height="100">
+                            <Grid.Lights>
+                                <local:RedSpotLight />
+                            </Grid.Lights>
 
-                            <Grid Name="PART_Root">
+                            <Path Name="PART_Slot_Border"
+                                  local:RedSpotLight.IsTarget="True"
+                                  Stroke="#FFCCCCCC"
+                                  StrokeEndLineCap="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="8" />
 
-                                <Grid.Lights>
-                                    <local:RedSpotLight />
-                                </Grid.Lights>
+                            <Path Name="PART_Slot"
+                                  Stroke="#FF222222"
+                                  StrokeEndLineCap="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="7" />
 
-                                <Path Name="PART_Slot_Border"
-                                      local:RedSpotLight.IsTarget="True"
-                                      Stroke="#FFCCCCCC"
-                                      StrokeEndLineCap="Round"
-                                      StrokeStartLineCap="Round"
-                                      StrokeThickness="8" />
+                            <Path Name="PART_Marker"
+                                  local:RedSpotLight.IsTarget="True"
+                                  Stroke="White"
+                                  StrokeEndLineCap="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="4" />
 
-                                <Path Name="PART_Slot"
-                                      Stroke="#FF222222"
-                                      StrokeEndLineCap="Round"
-                                      StrokeStartLineCap="Round"
-                                      StrokeThickness="7" />
-
-                                <Path Name="PART_Marker"
-                                      local:RedSpotLight.IsTarget="True"
-                                      Stroke="White"
-                                      StrokeEndLineCap="Round"
-                                      StrokeStartLineCap="Round"
-                                      StrokeThickness="4" />
-
-                                <TextBlock Name="PART_PercentText" Margin="0 0 18 0" TextAlignment="Right"
-                                           Foreground="#FF444444"
-                                           FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                            </Grid>
+                            <TextBlock Name="PART_PercentText" Margin="0 0 18 0" TextAlignment="Right"
+                                       Foreground="#FF444444"
+                                       FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
 
                             <TextBlock Text="{TemplateBinding Title}" Foreground="#888888" FontWeight="SemiBold"
                                        FontSize="10" Margin="20 28 0 0" />
+
                         </Grid>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:TemperatureIndicator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:TemperatureIndicator">
+                    <Viewbox>
+                        <Canvas Name="PART_Root" Width="100" Height="100">
+
+                            <Canvas Canvas.Top="45" Canvas.Left="65">
+
+                                <Path Fill="#FF222222"
+                                      Data="F1 M 7.000,19.918 L 7.000,2.500 C 7.000,1.125 5.875,0.000 4.500,0.000 C 3.125,0.000 2.000,1.125 2.000,2.500 L 2.000,19.918 C 0.795,20.726 0.000,22.099 0.000,23.658 C 0.000,26.144 2.015,28.158 4.500,28.158 C 6.985,28.158 9.000,26.144 9.000,23.658 C 9.000,22.099 8.205,20.726 7.000,19.918 Z" />
+
+                                <Path Fill="#FF9F0D0D"
+                                      Data="F1 M 8.000,23.658 C 8.000,21.725 6.433,20.158 4.500,20.158 C 2.567,20.158 1.000,21.725 1.000,23.658 C 1.000,25.591 2.567,27.158 4.500,27.158 C 6.433,27.158 8.000,25.591 8.000,23.658 Z" />
+
+
+                                <Path Name="PART_Indicator" StrokeThickness="3.0" Stroke="#FF9F0D0D"
+                                      StrokeStartLineCap="Round" StrokeEndLineCap="Flat" StrokeMiterLimit="1.0"
+                                      Data="F1 M 4.500,23.910 L 4.500,2.658" />
+                            </Canvas>
+
+                            <TextBlock Name="PART_TempText" Canvas.Top="61" Canvas.Left="12" Width="50"
+                                       Foreground="#FF444444" TextAlignment="Right"
+                                       FontSize="10" />
+                        </Canvas>
                     </Viewbox>
                 </ControlTemplate>
             </Setter.Value>
