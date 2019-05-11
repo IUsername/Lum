@@ -119,6 +119,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Assets\LogoComp.cs" />
+    <Compile Include="Controls\RadialIndicator.cs" />
+    <Compile Include="Controls\RedSpotLight.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\FrameAdapter.cs" />
     <Compile Include="Services\IFrameAdapter.cs" />
     <Compile Include="Services\INavigableTo.cs" />
@@ -167,6 +170,10 @@
     <Page Include="Styles\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dashboard.xaml">
       <SubType>Designer</SubType>

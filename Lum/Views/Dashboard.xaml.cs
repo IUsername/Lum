@@ -30,9 +30,10 @@ namespace Lum.Views
         }
 
         public DashboardViewModel ViewModel { get; set; }
+
         public void UpdateBindings()
         {
-            
+            DataContext = ViewModel;
         }
     }
 }

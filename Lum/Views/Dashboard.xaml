@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:lum="using:Lum"
     mc:Ignorable="d">
 
     <Grid>
@@ -13,35 +14,13 @@
                             VerticalAlignment="Center"
                             HorizontalSpacing="60" VerticalSpacing="40" Margin="20">
 
-            <controls:RadialGauge MaxWidth="400" Value="70" Minimum="0"
-                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="CPU"
-                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
-                <controls:RadialGauge.TrailBrush>
-                    <SolidColorBrush Color="Red" />
-                </controls:RadialGauge.TrailBrush>
-            </controls:RadialGauge>
+            <lum:RadialIndicator Value="{Binding CPU}" MaxWidth="400" Title="CPU" />
+            <lum:RadialIndicator Value="{Binding GPU}" MaxWidth="400" Title="GPU" />
+            <lum:RadialIndicator Value="{Binding Memory}" MaxWidth="400" Title="Memory" />
 
-
-            <controls:RadialGauge MaxWidth="400" Value="40" Minimum="0"
-                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="GPU"
-                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
-                <controls:RadialGauge.TrailBrush>
-                    <SolidColorBrush Color="Red" />
-                </controls:RadialGauge.TrailBrush>
-            </controls:RadialGauge>
-
-            <controls:RadialGauge MaxWidth="400" Value="76" Minimum="0"
-                                  Maximum="100" TickSpacing="10" ScaleWidth="10" Unit="Mem"
-                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                  NeedleWidth="5" TickLength="6" NeedleBrush="#FFFFFFFF">
-                <controls:RadialGauge.TrailBrush>
-                    <SolidColorBrush Color="Red" />
-                </controls:RadialGauge.TrailBrush>
-            </controls:RadialGauge>
-
-            <ToggleSwitch Header="Performance Boost"></ToggleSwitch>
+            <Grid Background="#FF383838">
+                <ToggleSwitch Header="Performance Boost" Margin="20" />
+            </Grid>
 
         </controls:WrapPanel>
 

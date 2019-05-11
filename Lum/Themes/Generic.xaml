@@ -1,0 +1,52 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Lum">
+
+    <Style TargetType="local:RadialIndicator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:RadialIndicator">
+                    <Viewbox>
+                        <Grid Width="100" Height="100">
+
+                            <Grid Name="PART_Root">
+
+                                <Grid.Lights>
+                                    <local:RedSpotLight />
+                                </Grid.Lights>
+
+                                <Path Name="PART_Slot_Border"
+                                      local:RedSpotLight.IsTarget="True"
+                                      Stroke="#FF888888"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="8" />
+
+                                <Path Name="PART_Slot"
+                                      Stroke="#FF222222"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="7" />
+
+                                <Path Name="PART_Marker"
+                                      local:RedSpotLight.IsTarget="True"
+                                      Stroke="White"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="4" />
+
+                                <TextBlock Name="PART_PercentText" Margin="0 0 18 0" TextAlignment="Right"
+                                           Foreground="#FF444444"
+                                           FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                            </Grid>
+
+                            <TextBlock Text="{TemplateBinding Title}" Foreground="#888888" FontWeight="SemiBold"
+                                       FontSize="10" Margin="20 28 0 0" />
+                        </Grid>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
