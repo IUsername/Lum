@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 using Lum.Utilities;
 
@@ -31,6 +32,67 @@ namespace Lum
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             nameof(Title), typeof(string), typeof(RadialIndicator), new PropertyMetadata(default(string)));
+
+        public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register(
+            nameof(EasingFunction), typeof(EasingFunctionBase), typeof(RadialIndicator), new PropertyMetadata(default(EasingFunctionBase)));
+
+        public static readonly DependencyProperty EasedValueProperty = DependencyProperty.Register(
+            nameof(EasedValue), typeof(double), typeof(RadialIndicator), new PropertyMetadata(default(double), OnEasedValueChanged));
+
+        private readonly Storyboard _storyboard = new Storyboard();
+        private DoubleAnimation _timeline;
+
+        private static void OnEasedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var indicator = (RadialIndicator) d;
+            indicator.AnimateToNewValue((double)e.NewValue);
+           
+        }
+
+        private void AnimateToNewValue(double newValue)
+        {
+            if (_timeline == null)
+            {
+                var timeline = new DoubleAnimation
+                {
+                    To = newValue,
+                    Duration = TimeSpan.FromMilliseconds(800),
+                    EnableDependentAnimation = true
+                };
+                if (EasingFunction == null)
+                {
+                    var elastic = new ElasticEase {Oscillations = 1, Springiness = 3};
+                    timeline.EasingFunction = elastic;
+                }
+                else
+                {
+                    timeline.EasingFunction = EasingFunction;
+                }
+
+                _storyboard.Children.Add(timeline);
+                Storyboard.SetTarget(timeline, this);
+                Storyboard.SetTargetProperty(timeline, nameof(Value));
+                _timeline = timeline;
+                _storyboard.Begin();
+            }
+            else
+            {
+                _timeline.To = newValue;
+                _storyboard.Begin();
+            }
+        }
+
+        public double EasedValue
+        {
+            get => (double) GetValue(EasedValueProperty);
+            set => SetValue(EasedValueProperty, value);
+        }
+
+        public EasingFunctionBase EasingFunction
+        {
+            get => (EasingFunctionBase) GetValue(EasingFunctionProperty);
+            set => SetValue(EasingFunctionProperty, value);
+        }
 
         public RadialIndicator()
         {
@@ -105,6 +167,7 @@ namespace Lum
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             if (GetTemplateChild(SlotPartName) is Path slot)
             {
                 var startAngle = ValueToAngle(0);

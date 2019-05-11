@@ -78,11 +78,13 @@ namespace Lum.ViewModels
             Memory = rand.NextDouble();
             while (true)
             {
-                CPU += (rand.NextDouble() + -0.5) * 0.1;
-                GPU += (rand.NextDouble() + -0.5) * 0.2;
-                Memory += (rand.NextDouble() + -0.5) * 0.05;
-                await Task.Delay(400);
+                CPU = Clamp(0, 1, CPU + (rand.NextDouble() - 0.5) * 0.1);
+                GPU = Clamp(0, 1, GPU + (rand.NextDouble() - 0.5) * 0.2);
+                Memory = Clamp(0, 1, Memory + (rand.NextDouble() - 0.5) * 0.05);
+                await Task.Delay(600);
             }
         }
+
+        private static double Clamp(double min, double max, double v) => Math.Min(max, Math.Max(min, v));
     }
 }
