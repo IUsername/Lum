@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,8 +10,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 using Lum.Utilities;
-
-// The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
 
 namespace Lum
 {
@@ -33,62 +32,68 @@ namespace Lum
             nameof(Title), typeof(string), typeof(RadialIndicator), new PropertyMetadata(default(string)));
 
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register(
-            nameof(EasingFunction), typeof(EasingFunctionBase), typeof(RadialIndicator), new PropertyMetadata(default(EasingFunctionBase)));
+            nameof(EasingFunction), typeof(EasingFunctionBase), typeof(RadialIndicator),
+            new PropertyMetadata(default(EasingFunctionBase)));
 
         public static readonly DependencyProperty EasedValueProperty = DependencyProperty.Register(
-            nameof(EasedValue), typeof(double), typeof(RadialIndicator), new PropertyMetadata(default(double), OnEasedValueChanged));
+            nameof(EasedValue), typeof(double), typeof(RadialIndicator),
+            new PropertyMetadata(default(double), OnEasedValueChanged));
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-            nameof(Value), typeof(double), typeof(RadialIndicator), new PropertyMetadata(default(double), OnValueChanged));
+            nameof(Value), typeof(double), typeof(RadialIndicator),
+            new PropertyMetadata(default(double), OnValueChanged));
 
-        public double Value
+        public static readonly DependencyProperty EasingDurationProperty = DependencyProperty.Register(
+            nameof(EasingDuration), typeof(TimeSpan), typeof(RadialIndicator),
+            new PropertyMetadata(TimeSpan.FromMilliseconds(800)));
+
+        public static readonly DependencyProperty PercentTextBrushProperty = DependencyProperty.Register(
+            nameof(PercentTextBrush), typeof(Brush), typeof(RadialIndicator),
+            new PropertyMetadata(new SolidColorBrush(Colors.White)));
+
+        public static readonly DependencyProperty SlotBackgroundBrushProperty = DependencyProperty.Register(
+            nameof(SlotBackgroundBrush), typeof(Brush), typeof(RadialIndicator),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty LightColorProperty = DependencyProperty.Register(
+            nameof(LightColor), typeof(Color), typeof(RadialIndicator), new PropertyMetadata(Colors.White));
+
+        public Color LightColor
         {
-            get => (double) GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
+            get => (Color) GetValue(LightColorProperty);
+            set => SetValue(LightColorProperty, value);
         }
 
         private readonly Storyboard _storyboard = new Storyboard();
         private DoubleAnimation _timeline;
 
-        private static void OnEasedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public RadialIndicator()
         {
-            var indicator = (RadialIndicator) d;
-            indicator.AnimateToNewValue((double)e.NewValue);
+            DefaultStyleKey = typeof(RadialIndicator);
         }
 
-        private void AnimateToNewValue(double newValue)
+        public Brush SlotBackgroundBrush
         {
-            if (_timeline == null)
-            {
-                var timeline = new DoubleAnimation
-                {
-                    To = newValue,
-                    Duration = TimeSpan.FromMilliseconds(1000),
-                    EnableDependentAnimation = true
-                };
-                if (EasingFunction == null)
-                {
-                    var e = new QuarticEase {EasingMode = EasingMode.EaseInOut};
+            get => (Brush) GetValue(SlotBackgroundBrushProperty);
+            set => SetValue(SlotBackgroundBrushProperty, value);
+        }
 
-                    // var elastic = new ElasticEase {Oscillations = 1, Springiness = 3};
-                    timeline.EasingFunction = e;// elastic;
-                }
-                else
-                {
-                    timeline.EasingFunction = EasingFunction;
-                }
+        public Brush PercentTextBrush
+        {
+            get => (Brush) GetValue(PercentTextBrushProperty);
+            set => SetValue(PercentTextBrushProperty, value);
+        }
 
-                _storyboard.Children.Add(timeline);
-                Storyboard.SetTarget(timeline, this);
-                Storyboard.SetTargetProperty(timeline, nameof(Value));
-                _timeline = timeline;
-                _storyboard.Begin();
-            }
-            else
-            {
-                _timeline.To = newValue;
-                _storyboard.Begin();
-            }
+        public TimeSpan EasingDuration
+        {
+            get => (TimeSpan) GetValue(EasingDurationProperty);
+            set => SetValue(EasingDurationProperty, value);
+        }
+
+        public double Value
+        {
+            get => (double) GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         public double EasedValue
@@ -103,20 +108,45 @@ namespace Lum
             set => SetValue(EasingFunctionProperty, value);
         }
 
-        public RadialIndicator()
-        {
-            DefaultStyleKey = typeof(RadialIndicator);
-        }
-
         public string Title
         {
             get => (string) GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
+        private static void OnEasedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var indicator = (RadialIndicator) d;
+            indicator.AnimateToNewValue((double) e.NewValue);
+        }
+
+        private void AnimateToNewValue(double newValue)
+        {
+            if (_timeline == null)
+            {
+                var timeline = new DoubleAnimation
+                {
+                    To = newValue,
+                    Duration = EasingDuration,
+                    EnableDependentAnimation = true,
+                    EasingFunction = EasingFunction ?? new QuadraticEase {EasingMode = EasingMode.EaseInOut}
+                };
+                _storyboard.Children.Add(timeline);
+                Storyboard.SetTarget(timeline, this);
+                Storyboard.SetTargetProperty(timeline, nameof(Value));
+                _timeline = timeline;
+                _storyboard.Begin();
+            }
+            else
+            {
+                _timeline.To = newValue;
+                _storyboard.Begin();
+            }
+        }
+
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var indicator = (RadialIndicator)d;
+            var indicator = (RadialIndicator) d;
             var newValue = (double) e.NewValue;
             if (double.IsNaN(newValue))
             {
@@ -131,19 +161,20 @@ namespace Lum
 
                 if (indicator.GetTemplateChild(RootPartName) is Grid root)
                 {
-                    if (root.Lights.Count > 0 && root.Lights[0] is RedSpotLight light)
+                    if (root.Lights.Count > 0 && root.Lights[0] is AccentColorSpotLight light)
                     {
                         var endPoint = AngleToPoint(endAngle);
-                        light.Position(new Vector3((float)endPoint.X, (float)endPoint.Y, 40));
+                        light.SetPosition(new Vector3((float) endPoint.X, (float) endPoint.Y, 40));
                     }
                 }
             }
 
             if (indicator.GetTemplateChild(PercentTextPartName) is TextBlock text)
             {
+                // Necessary to allow Run of different font sizes on the same text block line.
                 if (text.Inlines.Count != 2)
                 {
-                    var run = new Run
+                    var value = new Run
                     {
                         FontSize = 24,
                         Text = $"{newValue * 100:F0}",
@@ -155,17 +186,15 @@ namespace Lum
                         FontSize = 12,
                         FontWeight = FontWeights.Thin
                     };
-                    text.Inlines.Add(run);
+                    text.Inlines.Add(value);
                     text.Inlines.Add(symbol);
                 }
                 else
                 {
-                    ((Run)text.Inlines[0]).Text = $"{newValue * 100:F0}";
+                    ((Run) text.Inlines[0]).Text = $"{newValue * 100:F0}";
                 }
             }
         }
-
-     
 
         protected override void OnApplyTemplate()
         {
@@ -186,13 +215,11 @@ namespace Lum
 
             if (GetTemplateChild(RootPartName) is Grid root)
             {
-                if (root.Lights.Count > 0 && root.Lights[0] is RedSpotLight light)
+                if (root.Lights.Count > 0 && root.Lights[0] is AccentColorSpotLight light)
                 {
-                    light.CoordinateSpace(root.GetVisual());
+                    light.SetCoordinateSpace(root.GetVisual());
                 }
             }
-
-            //OnValueChanged(this);
         }
 
         private static PathGeometry CreateArcPathGeometry(double startAngle, double endAngle)
@@ -219,13 +246,10 @@ namespace Lum
             const int centerY = 50;
             var size = GetArcSize();
             var rad = DegToRad * angle;
-            return new Point(centerX + Math.Sin(rad) * size.Width, centerY - Math.Cos(rad) * size.Height);
+            return new Point(centerX + Math.Sin(rad) * size.Width,
+                             centerY - Math.Cos(rad) * size.Height);
         }
 
-        private static double ValueToAngle(double value) => Lerp(-135, 135, Clamp(value));
-
-        private static double Lerp(double v0, double v1, double t) => (1 - t) * v0 + t * v1;
-
-        private static double Clamp(double v) => Math.Min(Math.Max(0d, v), 1d);
+        private static double ValueToAngle(double value) => Tools.Lerp(-135, 135, Tools.Clamp(0, 1, value));
     }
 }

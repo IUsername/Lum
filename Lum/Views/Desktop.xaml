@@ -5,9 +5,26 @@
     xmlns:local="using:Lum.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:Lum.ViewModels"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:DesktopViewModel}">
 
     <Grid>
         <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Margin="20">Desktop</TextBlock>
+
+        <RelativePanel Margin="0 80 0 0" >
+            <StackPanel  Margin="20">
+                <TextBlock Text="Operating System" Style="{ThemeResource BodyTextBlockStyle}"  Margin="0 24 0 0"></TextBlock>
+                <TextBlock Text="{Binding FullOperatingSystem}" Style="{StaticResource BaseTextBlockStyle}"></TextBlock>
+
+                <TextBlock Text="System Name" Style="{ThemeResource BodyTextBlockStyle}" Margin="0 24 0 0"></TextBlock>
+                <TextBlock Text="{Binding SystemName}" Style="{StaticResource BaseTextBlockStyle}"></TextBlock>
+
+                <TextBlock Text="Make &amp; Model" Style="{ThemeResource BodyTextBlockStyle}" Margin="0 24 0 0"></TextBlock>
+                <TextBlock Text="{Binding SystemMakeAndModel}" Style="{StaticResource BaseTextBlockStyle}"></TextBlock>
+
+                <TextBlock Text="Application Version" Style="{ThemeResource BodyTextBlockStyle}" Margin="0 24 0 0"></TextBlock>
+                <TextBlock Text="{Binding ApplicationVersion}" Style="{StaticResource BaseTextBlockStyle}"></TextBlock>
+            </StackPanel>
+        </RelativePanel>
     </Grid>
 </Page>

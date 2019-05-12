@@ -5,27 +5,22 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Lum.Views
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class ExtendedSplash : Page
     {
-        private readonly SplashScreen _splash; // Variable to hold the splash screen object.
+        private readonly SplashScreen _splash;
         private readonly TaskCompletionSource<object> _tcs;
 
-        internal bool Dismissed; // Variable to track splash screen dismissal status.
+        internal bool Dismissed; // Track if launch splash screen has completed. Not currently used.
 
-        //internal Frame rootFrame;
-        internal Rect SplashImageRect; // Rect to store splash screen image coordinates.
+        internal Rect SplashImageRect; // Rect of splash screen image;
 
 
         public ExtendedSplash(SplashScreen splashScreen)
         {
             InitializeComponent();
+            _tcs = new TaskCompletionSource<object>();
 
             // Listen for window resize events to reposition the extended splash screen image accordingly.
             // This is important to ensure that the extended splash screen is formatted properly in response to snapping, unsnapping, rotation, etc...
@@ -42,10 +37,7 @@ namespace Lum.Views
                 SplashImageRect = _splash.ImageLocation;
                 PositionImage();
             }
-
-            _tcs = new TaskCompletionSource<object>();
         }
-
 
         private void PositionImage()
         {
@@ -60,14 +52,8 @@ namespace Lum.Views
             Dismissed = true;
         }
 
-        public void DismissExtendedSplash()
-        {
-            _tcs.SetResult(null);
-        }
-
         private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
         {
-            // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
             if (_splash != null)
             {
                 // Update the coordinates of the splash screen image.
@@ -78,8 +64,9 @@ namespace Lum.Views
 
         private void ExtendedSplash_OnLoaded(object sender, RoutedEventArgs e)
         {
+            // Play lottie animation once [0..1].
             var playAction = Logo.PlayAsync(0, 1, false);
-            playAction.Completed = (info, status) => DismissExtendedSplash();
+            playAction.Completed = (info, status) => _tcs.SetResult(null);
         }
 
         public Task RunAsync() => _tcs.Task;

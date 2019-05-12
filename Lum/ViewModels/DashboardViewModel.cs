@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.System.Diagnostics;
 using Lum.Annotations;
 
 namespace Lum.ViewModels

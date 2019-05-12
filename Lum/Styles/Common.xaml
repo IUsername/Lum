@@ -4,11 +4,13 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="SystemAccentColor">#FF9F0D0D</Color>
+            <SolidColorBrush x:Key="SecondaryFontBrush">#FF888888</SolidColorBrush>
+            <SolidColorBrush x:Key="TertiaryFontBrush">#FF444444</SolidColorBrush>
+            <SolidColorBrush x:Key="DepthBackgroundBrush">#FF222222</SolidColorBrush>
+            <SolidColorBrush x:Key="NavigationViewTopPaneBackground">#FF222222</SolidColorBrush>
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{ThemeResource SystemAccentColor}" />
             <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />
             <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />
-            <!--<StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemControlAcrylicWindowBrush" />-->
-            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#FF222222"></SolidColorBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

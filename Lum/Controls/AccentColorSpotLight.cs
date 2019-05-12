@@ -6,10 +6,10 @@ using Windows.UI.Xaml.Media;
 
 namespace Lum
 {
-    public sealed class RedSpotLight : XamlLight
+    public sealed class AccentColorSpotLight : XamlLight
     {
         public static readonly DependencyProperty IsTargetProperty = DependencyProperty.RegisterAttached(
-            "IsTarget", typeof(bool), typeof(RedSpotLight), new PropertyMetadata(default(bool), OnIsTargetChanged));
+            "IsTarget", typeof(bool), typeof(AccentColorSpotLight), new PropertyMetadata(default(bool), OnIsTargetChanged));
 
         private static void OnIsTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -48,7 +48,7 @@ namespace Lum
             }
 
             var spotLight = Window.Current.Compositor.CreateSpotLight();
-            spotLight.InnerConeColor = Color.FromArgb(0xFF, 0x9F, 0x0D, 0x0D);
+            spotLight.InnerConeColor = (Color) Application.Current.Resources["SystemAccentColor"];
             spotLight.OuterConeColor = Colors.LightBlue;
             spotLight.InnerConeAngleInDegrees = 1;
             spotLight.OuterConeAngleInDegrees = 90;
@@ -68,7 +68,7 @@ namespace Lum
             CompositionLight = null;
         }
 
-        public void Position(Vector3 offset)
+        public void SetPosition(Vector3 offset)
         {
             if (CompositionLight is SpotLight spot)
             {
@@ -76,7 +76,7 @@ namespace Lum
             }
         }
 
-        public void CoordinateSpace(Visual visual)
+        public void SetCoordinateSpace(Visual visual)
         {
             if (CompositionLight is SpotLight spot)
             {
@@ -84,7 +84,7 @@ namespace Lum
             }
         }
 
-        private static string GetIdStatic() => typeof(RedSpotLight).FullName;
+        private static string GetIdStatic() => typeof(AccentColorSpotLight).FullName;
 
         protected override string GetId() => GetIdStatic();
 

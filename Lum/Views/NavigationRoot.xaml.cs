@@ -6,13 +6,8 @@ using Windows.UI.Xaml.Navigation;
 using Lum.Services;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Lum.Views
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class NavigationRoot : Page
     {
         private Type _currentPageType;
@@ -47,6 +42,7 @@ namespace Lum.Views
 
         private void SelectNav(Type sourcePageType)
         {
+            // This is not easily extensible - look into tracking in the navigation service by an attribute.
             switch (sourcePageType)
             {
                 case Type _ when sourcePageType == typeof(Dashboard):

@@ -120,7 +120,7 @@
     </Compile>
     <Compile Include="Assets\LogoComp.cs" />
     <Compile Include="Controls\RadialIndicator.cs" />
-    <Compile Include="Controls\RedSpotLight.cs" />
+    <Compile Include="Controls\AccentColorSpotLight.cs" />
     <Compile Include="Controls\TemperatureIndicator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\FrameAdapter.cs" />
@@ -130,6 +130,7 @@
     <Compile Include="Services\IPageWithViewModel.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ViewModeService.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="Utilities\NavigationExtensions.cs" />
     <Compile Include="Utilities\VisualHelpers.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
