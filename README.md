@@ -6,3 +6,5 @@
 * Transition animations
 * [Composition APIs](https://docs.microsoft.com/en-us/uwp/api/windows.ui.composition)
 * [XAML lights](https://docs.microsoft.com/en-us/windows/uwp/composition/xaml-lighting)
+
+Includes custom controls for the radial indicators and tempurature levels.
