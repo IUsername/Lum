@@ -1,4 +1,6 @@
+
 # Lum
+
 ![](https://j.gifs.com/RO1qBz.gif)
 
 ### Exploring some of the new features in UWP
@@ -9,3 +11,5 @@
 * [XAML lights](https://docs.microsoft.com/en-us/windows/uwp/composition/xaml-lighting)
 
 Includes custom controls for the radial indicators and tempurature levels.
+
+![](https://github.com/IUsername/Lum/blob/master/Images/logo.gif "Lum")
